@@ -44,3 +44,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Roads
+    uniqueID: 3062588305
+    locked: 0
+  - name: Car
+    uniqueID: 2516460587
+    locked: 0
+  - name: GrandMa
+    uniqueID: 2195638941
+    locked: 0
+  - name: Player
+    uniqueID: 2975328639
+    locked: 0

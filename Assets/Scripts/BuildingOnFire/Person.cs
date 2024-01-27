@@ -7,6 +7,11 @@ public class Person : MonoBehaviour
 {
     [SerializeField]
     private float moveSpeed;
+    private Rigidbody2D personBody;
+    private void Awake()
+    {
+        personBody = GetComponent<Rigidbody2D>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -14,9 +19,9 @@ public class Person : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+        personBody.velocity = Vector3.left * moveSpeed * Time.fixedDeltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

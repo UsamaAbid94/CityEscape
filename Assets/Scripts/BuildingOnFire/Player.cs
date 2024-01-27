@@ -4,41 +4,71 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public enum PlayerMissions
+    {
+        SavingPeople,
+        SavingGrandMa,
+        CallingPhoneCall
+    }
+
+    public PlayerMissions playerMissions;
+
     bool isHoldingCivilian = false;
     bool isAiming = false;
     [SerializeField] float throwForce;
     [SerializeField] Vector3 throwingPos;
     Rigidbody2D civilianRB;
-    
+
+
+    //Saving GrandMa
+    public float savingTime=2f;
+    public float timeToSave;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        timeToSave = savingTime; 
     }
 
     // Update is called once per frame
     void Update()
     {
-        // if we're holding a person
-        // allow mouse aim
-        // fling in aimed direction when you click
-        if (isHoldingCivilian)
+        if (playerMissions == PlayerMissions.SavingPeople)
         {
-            if (Input.GetMouseButtonDown(0))
+            // if we're holding a person
+            // allow mouse aim
+            // fling in aimed direction when you click
+            if (isHoldingCivilian)
             {
-                isAiming = true;
+                if (Input.GetMouseButtonDown(0))
+                {
+                    isAiming = true;
+
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    Launch();
+                    isAiming = false;
+                    GetComponent<BoxCollider2D>().enabled = true;
+                }
             }
-            if (Input.GetMouseButtonUp(0))
+
+            if (isAiming)
             {
-                Launch();
-                isAiming = false;
+                UpdateAim();
+                GetComponent<BoxCollider2D>().enabled = false;
             }
         }
 
-        if (isAiming)
+        if (playerMissions == PlayerMissions.SavingGrandMa)
         {
-            UpdateAim();
+            timeToSave -= Time.deltaTime;
+            if (timeToSave <= 0f)
+            {
+                transform.position = Vector3.Lerp(transform.position, new Vector3(2f, -1.72f, 0f), 0.02f);
+            }
         }
     }
 
@@ -69,18 +99,19 @@ public class Player : MonoBehaviour
         // if a person walks into us, and we're not already holding a person,
         // pick the person up, disabling their walk script and making them immobile
 
-      if (!isHoldingCivilian)
+        if (playerMissions == PlayerMissions.SavingPeople)
         {
-          isHoldingCivilian = true;
+            if (!isHoldingCivilian)
+            {
+                isHoldingCivilian = true;
 
-            civilianRB = collision.rigidbody;
-            civilianRB.isKinematic = true;
-            civilianRB.gameObject.GetComponent<Person>().enabled = false;
-            civilianRB.transform.position = throwingPos;
-           
-            
-       }
-        
-        
+                civilianRB = collision.rigidbody;
+                civilianRB.isKinematic = true;
+                civilianRB.gameObject.GetComponent<Person>().enabled = false;
+                civilianRB.transform.position = throwingPos;
+            }
+
+        }
+
     }
 }
