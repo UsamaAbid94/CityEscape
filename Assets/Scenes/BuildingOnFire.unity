@@ -224,7 +224,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.3333334, g: 0.5975676, b: 0.99215686, a: 1}
+  m_Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -419,7 +419,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.99215686, g: 0.5971941, b: 0.3333334, a: 1}
+  m_Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -655,6 +655,7 @@ GameObject:
   - component: {fileID: 1217551392}
   - component: {fileID: 1217551391}
   - component: {fileID: 1217551394}
+  - component: {fileID: 1217551395}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -674,8 +675,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33c68eb05da63164c8ff2a3ff7523601, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMissions: 0
   throwForce: -700
   throwingPos: {x: -6.93, y: -0.46, z: 0}
+  jumpForce: 40
+  savingTime: 2
+  timeToSave: 0
 --- !u!212 &1217551392
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -769,6 +774,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &1217551395
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1217551390}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 12
+  m_LinearDrag: 0.5
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1678393588
 GameObject:
   m_ObjectHideFlags: 0
@@ -982,9 +1008,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   peopleToSpawn: {fileID: 4418551679864196603, guid: 47a10378e84464242b72a08893408d7c, type: 3}
+  fireBall: {fileID: 6244664553608388550, guid: e550196e4778a4bb4a8174fde350baa0, type: 3}
   spawnPoint: {fileID: 1916518955}
   moveSpeed: 20
-  spawnTime: 1.2
+  spawnTime: 1.9
+  minTime: 0
+  maxTime: 2
 --- !u!1 &1916518955
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,7 +1226,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.5403336, g: 0.990566, b: 0.3317462, a: 1}
+  m_Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
