@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
 
     private int imageCounter;
     private int gameScore;
+
+    [SerializeField] GameObject instructions;
+    bool gameStarted;
+    [SerializeField] GameObject gameOverImage;
+
     private void Awake()
     {
         if (gameManager == null)
@@ -24,6 +29,9 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameManager);
         }
+
+        instructions.SetActive(true);
+        Time.timeScale = 0.0f;
     }
     // Start is called before the first frame update
     void Start()
@@ -34,7 +42,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!gameStarted && Input.GetMouseButtonDown(0))
+        {
+            gameStarted = true;
+            Time.timeScale = 1.0f;
+            instructions.SetActive(false); // close instructions popup
+        }
     }
 
     public void UpdateScore(int gameScore) {
@@ -54,6 +67,7 @@ public class GameManager : MonoBehaviour
         else
         {
             PickleImage.gameObject.SetActive(false);
+            gameOverImage.SetActive(true);
         }
     }
    

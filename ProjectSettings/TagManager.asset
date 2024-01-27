@@ -76,3 +76,6 @@ TagManager:
   - name: Building
     uniqueID: 1625985215
     locked: 0
+  - name: Instructions
+    uniqueID: 3308358325
+    locked: 0
