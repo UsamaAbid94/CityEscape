@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] float throwForce;
     [SerializeField] Vector3 throwingPos;
     Rigidbody2D civilianRB;
-
+    
 
     // Start is called before the first frame update
     void Start()
@@ -69,16 +69,17 @@ public class Player : MonoBehaviour
         // if a person walks into us, and we're not already holding a person,
         // pick the person up, disabling their walk script and making them immobile
 
-        if (!isHoldingCivilian)
+      if (!isHoldingCivilian)
         {
-            isHoldingCivilian = true;
+          isHoldingCivilian = true;
 
             civilianRB = collision.rigidbody;
             civilianRB.isKinematic = true;
             civilianRB.gameObject.GetComponent<Person>().enabled = false;
-
             civilianRB.transform.position = throwingPos;
-        }
+           
+            
+       }
         
         
     }

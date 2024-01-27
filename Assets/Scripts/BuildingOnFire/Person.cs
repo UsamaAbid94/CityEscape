@@ -18,4 +18,23 @@ public class Person : MonoBehaviour
     {
         transform.position += Vector3.left * moveSpeed * Time.deltaTime;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "HighArea":
+                GameManager.gameManager.UpdateScore(10);
+                gameObject.SetActive(false);
+                break;
+            case "MidArea":
+                GameManager.gameManager.UpdateScore(5);
+                gameObject.SetActive(false);
+                break;
+            case "LowArea":
+                GameManager.gameManager.UpdateScore(2);
+                gameObject.SetActive(false);
+                break;
+        }
+    }
 }
