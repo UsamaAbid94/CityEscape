@@ -9,13 +9,13 @@ public class NPCSpawn : MonoBehaviour
     [SerializeField]
     private GameObject spawnPoint;
     [SerializeField]
-    private float moveSpeed;
+    private float moveSpeed, ballMoveSpeed;
 
-    public float spawnTime = 2f, minTime = 0f,maxTime=2f;
+    public float spawnTime = 2f, minTime = 2f,maxTime=4f;
     private float timeToSpawn;
     private float timeToSpawnBall;
     GameObject people;
-   
+    GameObject ball;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +27,7 @@ public class NPCSpawn : MonoBehaviour
     void Update()
     {
         timeToSpawn -= Time.deltaTime;
+        timeToSpawnBall -= Time.deltaTime;
         if (timeToSpawn <= 0f)
         {
              people = Instantiate(peopleToSpawn, spawnPoint.transform
@@ -39,6 +40,6 @@ public class NPCSpawn : MonoBehaviour
             Instantiate(fireBall, spawnPoint.transform.position, Quaternion.identity);
             timeToSpawnBall = Random.Range(minTime,maxTime);
         }
-    
+       
     }
 }

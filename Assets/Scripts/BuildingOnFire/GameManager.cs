@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text scoreText;
 
+    public Image[] pickleImages;
+
     private int gameScore;
     private void Awake()
     {

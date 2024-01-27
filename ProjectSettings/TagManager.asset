@@ -7,6 +7,7 @@ TagManager:
   - HighArea
   - MidArea
   - LowArea
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -44,6 +45,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BG
+    uniqueID: 3256958105
+    locked: 0
+  - name: UI
+    uniqueID: 1973898469
+    locked: 0
   - name: Roads
     uniqueID: 3062588305
     locked: 0
@@ -55,4 +62,10 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2975328639
+    locked: 0
+  - name: People
+    uniqueID: 990607447
+    locked: 0
+  - name: Building
+    uniqueID: 1625985215
     locked: 0

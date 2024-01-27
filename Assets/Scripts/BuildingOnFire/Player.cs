@@ -20,18 +20,20 @@ public class Player : MonoBehaviour
     Rigidbody2D civilianRB;
     [SerializeField] float jumpForce;
      Rigidbody2D playerBody;
-    
+    Animator dillAnim;
 
     //Saving GrandMa
     public float savingTime=2f;
     public float timeToSave;
-
+    private bool isTimeToPick;
     private bool isGrounded;
 
 
+    public GameObject smallShadow, midShadow, HighShadow;
     private void Awake()
     {
         playerBody = GetComponent<Rigidbody2D>();
+        dillAnim = GetComponent<Animator>();
     }
     // Start is called before the first frame update
     void Start()
@@ -46,7 +48,13 @@ public class Player : MonoBehaviour
             if (isHoldingCivilian)
             {
 
-      
+            civilianRB.transform.position = Vector3.Lerp(civilianRB.transform.position, throwingPos, 0.012f);
+
+            if (isTimeToPick)
+            {
+                dillAnim.SetBool("aiming", true);
+                isTimeToPick = false;
+            }
 
             if (Input.GetMouseButtonDown(0))
                 {
@@ -54,6 +62,7 @@ public class Player : MonoBehaviour
 
                 GetComponent<BoxCollider2D>().enabled = false;
                 playerBody.gravityScale = 0f;
+             
 
             }
                 if (Input.GetMouseButtonUp(0))
@@ -62,12 +71,15 @@ public class Player : MonoBehaviour
                     isAiming = false;
 
                 GetComponent<BoxCollider2D>().enabled = true;
+                dillAnim.SetBool("aiming", isAiming);
                
                 playerBody.gravityScale = 1f;
             }
-            }    
+            }
 
-            if (isAiming)
+        
+
+        if (isAiming)
             {
                 UpdateAim();
             
@@ -78,8 +90,10 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
             {
               
-                playerBody.AddForce(Vector2.up* jumpForce, ForceMode2D.Impulse);
-               isGrounded =false;
+            playerBody.AddForce(Vector2.up* jumpForce, ForceMode2D.Impulse);
+            StartCoroutine(ShadowChanges());
+            isGrounded =false;
+
             }
         
 
@@ -131,7 +145,8 @@ public class Player : MonoBehaviour
                 civilianRB.isKinematic = true;
                // collision.gameObject.transform.parent = this.gameObject.transform;
                 civilianRB.gameObject.GetComponent<Person>().enabled = false;
-                civilianRB.transform.position = throwingPos;
+               
+                isTimeToPick = true;
             }
         }
 
@@ -144,5 +159,18 @@ public class Player : MonoBehaviour
 
         
 
+    }
+
+    IEnumerator ShadowChanges()
+    {
+        HighShadow.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        midShadow.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        midShadow.SetActive(false);
+        smallShadow.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        smallShadow.SetActive(false);
+        HighShadow.SetActive(true);
     }
 }
