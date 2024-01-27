@@ -15,19 +15,28 @@ public class Player : MonoBehaviour
 
     bool isHoldingCivilian = false;
     bool isAiming = false;
+
     [SerializeField] float throwForce;
     [SerializeField] Vector3 throwingPos;
-    Rigidbody2D civilianRB;
     [SerializeField] float jumpForce;
+
+    Rigidbody2D civilianRB;
      Rigidbody2D playerBody;
+
     Animator dillAnim;
+    AudioSource playerAudio;
+    AudioClip pickupSfx;
+    AudioClip throwSfx;
+    AudioClip jumpSfx;
 
   
 
 
     //Saving GrandMa
+    /*
     public float savingTime=2f;
     public float timeToSave;
+    */
     private bool isTimeToPick;
     private bool isGrounded;
 
@@ -41,15 +50,15 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeToSave = savingTime; 
+        //timeToSave = savingTime; 
     }
 
     // Update is called once per frame
     void Update()
     {
-       
-            if (isHoldingCivilian)
-            {
+
+        if (isHoldingCivilian)
+        {
 
             civilianRB.transform.position = Vector3.Lerp(civilianRB.transform.position, throwingPos, 0.012f);
 
@@ -57,48 +66,65 @@ public class Player : MonoBehaviour
             {
                 dillAnim.SetBool("aiming", true);
                 isTimeToPick = false;
+
+                if (playerAudio != null)
+                {
+                    playerAudio.clip = pickupSfx;
+                    playerAudio.Play();
+                }
             }
 
             if (Input.GetMouseButtonDown(0))
-                {
-                    isAiming = true;
+            {
+                isAiming = true;
 
                 GetComponent<BoxCollider2D>().enabled = false;
                 playerBody.gravityScale = 0f;
-             
-
             }
-                if (Input.GetMouseButtonUp(0))
-                {
-                    Launch();
-                    isAiming = false;
-               
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                Launch();
+                isAiming = false;
+
                 GetComponent<BoxCollider2D>().enabled = true;
                 dillAnim.SetBool("aiming", isAiming);
-               
+
+                if (playerAudio != null)
+                {
+                    playerAudio.clip = throwSfx;
+                    playerAudio.Play();
+                }
+                
                 playerBody.gravityScale = 1f;
             }
-            }
+        }
 
-        
+
 
         if (isAiming)
-            {
-                UpdateAim();
-            
+        {
+            UpdateAim();
+
             GetComponent<BoxCollider2D>().enabled = false;
             playerBody.gravityScale = 0f;
-            }
+        }
 
-            if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-            {
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
 
             JumpPlayer(jumpForce);
             StartCoroutine(ShadowChanges());
-            isGrounded =false;
+            isGrounded = false;
 
+            if (playerAudio != null)
+            {
+                playerAudio.clip = jumpSfx;
+                playerAudio.Play();
             }
-        
+
+        }
+
 
         //if (playerMissions == PlayerMissions.SavingGrandMa)
         //{
@@ -129,9 +155,11 @@ public class Player : MonoBehaviour
     void Launch()
     {
         civilianRB.isKinematic = false;
+        civilianRB.gameObject.transform.parent = transform;
 
         Vector3 launchDir = Input.mousePosition - Camera.main.WorldToScreenPoint(civilianRB.transform.position);
         civilianRB.AddForce(-launchDir.normalized * throwForce);
+
         isHoldingCivilian = false;
         civilianRB = null;
     }
@@ -158,19 +186,16 @@ public class Player : MonoBehaviour
                 
                 civilianRB = collision.rigidbody;
                 civilianRB.isKinematic = true;
-               // collision.gameObject.transform.parent = this.gameObject.transform;
+
+                civilianRB.gameObject.transform.parent = transform;
                 civilianRB.gameObject.GetComponent<Person>().enabled = false;
                
                 isTimeToPick = true;
             }
         }
 
-     
-
         isGrounded = true;
-
-        
-
+ 
     }
 
     IEnumerator ShadowChanges()
