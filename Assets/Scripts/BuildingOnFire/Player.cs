@@ -97,6 +97,10 @@ public class Player : MonoBehaviour
                 }
                 
                 playerBody.gravityScale = 1f;
+                if (!isGrounded)
+                {
+                    dillAnim.Play("DillJumpThrow");
+                }
             }
         }
 
@@ -125,16 +129,6 @@ public class Player : MonoBehaviour
             }
 
         }
-
-
-        //if (playerMissions == PlayerMissions.SavingGrandMa)
-        //{
-        //    timeToSave -= Time.deltaTime;
-        //    if (timeToSave <= 0f)
-        //    {
-        //        transform.position = Vector3.Lerp(transform.position, new Vector3(2f, -1.72f, 0f), 0.02f);
-        //    }
-        //}
     }
 
     void JumpPlayer(float jumpForce)
@@ -197,7 +191,6 @@ public class Player : MonoBehaviour
         }
 
         isGrounded = true;
- 
     }
 
     IEnumerator ShadowChanges()

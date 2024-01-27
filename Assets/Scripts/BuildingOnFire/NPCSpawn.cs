@@ -5,7 +5,9 @@ using UnityEngine;
 public class NPCSpawn : MonoBehaviour
 {
     [SerializeField]
-    private GameObject peopleToSpawn,fireBall;
+    private GameObject[] peopleToSpawn;
+    [SerializeField]
+    private GameObject  fireBall;
     [SerializeField]
     private GameObject spawnPoint;
     [SerializeField]
@@ -30,7 +32,7 @@ public class NPCSpawn : MonoBehaviour
         timeToSpawnBall -= Time.deltaTime;
         if (timeToSpawn <= 0f)
         {
-             people = Instantiate(peopleToSpawn, spawnPoint.transform
+             people = Instantiate(peopleToSpawn[Random.Range(0,peopleToSpawn.Length)], spawnPoint.transform
             .position, spawnPoint.transform.rotation);
             timeToSpawn = spawnTime;
         }
@@ -38,8 +40,8 @@ public class NPCSpawn : MonoBehaviour
         if (timeToSpawnBall <= 0f)
         {
             Instantiate(fireBall, spawnPoint.transform.position, Quaternion.identity);
-            timeToSpawnBall = Random.Range(4f,6f);
+            timeToSpawnBall = Random.Range(4f, 6f);
         }
-       
+
     }
 }
