@@ -8,8 +8,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text scoreText;
 
-    public Image[] pickleImages;
+    public Sprite[] pickleSprite;
 
+    public Image PickleImage;
+
+    private int imageCounter;
     private int gameScore;
     private void Awake()
     {
@@ -40,5 +43,18 @@ public class GameManager : MonoBehaviour
         scoreText.text =this.gameScore.ToString();
     }
 
+    public void HurtPlayer()
+    {
+        if (imageCounter < pickleSprite.Length)
+        {
+            PickleImage.sprite = pickleSprite[imageCounter];
+            imageCounter++;
+
+        }
+        else
+        {
+            PickleImage.gameObject.SetActive(false);
+        }
+    }
    
 }

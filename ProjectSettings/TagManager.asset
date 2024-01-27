@@ -8,6 +8,7 @@ TagManager:
   - MidArea
   - LowArea
   - FxTemporaire
+  - FireBall
   layers:
   - Default
   - TransparentFX

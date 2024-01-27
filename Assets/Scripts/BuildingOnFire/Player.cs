@@ -22,6 +22,9 @@ public class Player : MonoBehaviour
      Rigidbody2D playerBody;
     Animator dillAnim;
 
+  
+
+
     //Saving GrandMa
     public float savingTime=2f;
     public float timeToSave;
@@ -69,7 +72,7 @@ public class Player : MonoBehaviour
                 {
                     Launch();
                     isAiming = false;
-
+               
                 GetComponent<BoxCollider2D>().enabled = true;
                 dillAnim.SetBool("aiming", isAiming);
                
@@ -89,8 +92,8 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
             {
-              
-            playerBody.AddForce(Vector2.up* jumpForce, ForceMode2D.Impulse);
+
+            JumpPlayer(jumpForce);
             StartCoroutine(ShadowChanges());
             isGrounded =false;
 
@@ -107,6 +110,10 @@ public class Player : MonoBehaviour
         //}
     }
 
+    void JumpPlayer(float jumpForce)
+    {
+        playerBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+    }
     void UpdateAim()
     {
         // change forward trajectory of rb
@@ -129,6 +136,14 @@ public class Player : MonoBehaviour
         civilianRB = null;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag.Equals("FireBall"))
+        {
+            GameManager.gameManager.HurtPlayer();
+            Debug.Log("Collding With balls");
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // if a person walks into us, and we're not already holding a person,
@@ -150,10 +165,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (collision.gameObject.tag.Equals("Peopl"))
-        {
-            
-        }
+     
 
         isGrounded = true;
 
@@ -164,7 +176,6 @@ public class Player : MonoBehaviour
     IEnumerator ShadowChanges()
     {
         HighShadow.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
         midShadow.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         midShadow.SetActive(false);
