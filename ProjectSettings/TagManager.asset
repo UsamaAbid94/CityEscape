@@ -49,6 +49,12 @@ TagManager:
   - name: BG
     uniqueID: 3256958105
     locked: 0
+  - name: ForeGround
+    uniqueID: 2875732061
+    locked: 0
+  - name: Ground
+    uniqueID: 3252090993
+    locked: 0
   - name: UI
     uniqueID: 1973898469
     locked: 0

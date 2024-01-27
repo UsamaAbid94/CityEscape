@@ -113,6 +113,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
 
+
             JumpPlayer(jumpForce);
             StartCoroutine(ShadowChanges());
             isGrounded = false;
@@ -139,6 +140,7 @@ public class Player : MonoBehaviour
     void JumpPlayer(float jumpForce)
     {
         playerBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        dillAnim.Play("DillJump");
     }
     void UpdateAim()
     {
@@ -208,5 +210,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         smallShadow.SetActive(false);
         HighShadow.SetActive(true);
+        dillAnim.Play("DillIdle");
     }
 }
