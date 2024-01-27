@@ -7,13 +7,11 @@ public class Person : MonoBehaviour
 {
     [SerializeField]
     private float moveSpeed;
-
-    bool despawnTimerActive = false;
-    [SerializeField] float timeTillDespawn = 5;
-
-    bool isMoving = true;
-    public bool IsMoving { get { return isMoving; } }
-     
+    private Rigidbody2D personBody;
+    private void Awake()
+    {
+        personBody = GetComponent<Rigidbody2D>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -23,32 +21,9 @@ public class Person : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (isMoving) 
-        {
-            transform.position += Vector3.left * moveSpeed * Time.deltaTime;
-        }
-
-        if (despawnTimerActive)
-        {
-            timeTillDespawn -= Time.deltaTime;
-
-            if (timeTillDespawn <= 0)
-            {
-                Destroy(this.gameObject);
-            }
-        }
+        personBody.velocity = Vector3.left * moveSpeed * Time.fixedDeltaTime;
     }
 
-    public void SetGrabState()
-    {
-        isMoving = false; // this will also be used to determine whether we should give points 
-    }
-
-    public void StartDespawnTimer()
-    {
-        despawnTimerActive |= Time.deltaTime > 0;
-    }
-    /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch (collision.gameObject.tag)
@@ -66,5 +41,5 @@ public class Person : MonoBehaviour
                 gameObject.SetActive(false);
                 break;
         }
-    }*/
+    }
 }

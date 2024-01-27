@@ -18,7 +18,6 @@ public class Player : MonoBehaviour
     [SerializeField] float throwForce;
     [SerializeField] Vector3 throwingPos;
     Rigidbody2D civilianRB;
-    Collider2D playerCollider;
 
 
     //Saving GrandMa
@@ -27,12 +26,13 @@ public class Player : MonoBehaviour
 
 
 
+    // Start is called before the first frame update
     void Start()
     {
-        playerCollider = GetComponent<Collider2D>();
         timeToSave = savingTime; 
     }
 
+    // Update is called once per frame
     void Update()
     {
         if (playerMissions == PlayerMissions.SavingPeople)
@@ -88,12 +88,10 @@ public class Player : MonoBehaviour
         civilianRB.isKinematic = false;
 
         Vector3 launchDir = Input.mousePosition - Camera.main.WorldToScreenPoint(civilianRB.transform.position);
-        civilianRB.AddForce(-launchDir * throwForce);
-        civilianRB.gameObject.GetComponent<Person>().StartDespawnTimer();
+        civilianRB.AddForce(-launchDir.normalized * throwForce);
 
         isHoldingCivilian = false;
         civilianRB = null;
-        playerCollider.enabled = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

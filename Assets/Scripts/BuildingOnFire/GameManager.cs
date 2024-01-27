@@ -1,14 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
     [SerializeField]
-    private TextMeshProUGUI scoreText;
-
+    private Text scoreText;
 
     private int gameScore;
     private void Awake()
@@ -37,11 +35,7 @@ public class GameManager : MonoBehaviour
     public void UpdateScore(int gameScore) {
 
         this.gameScore = this.gameScore + gameScore;
-
-        if (scoreText != null)
-        {
-            scoreText.text = this.gameScore.ToString();
-        }
+        scoreText.text =this.gameScore.ToString();
     }
 
    
