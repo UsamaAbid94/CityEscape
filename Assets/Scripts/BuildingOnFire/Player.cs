@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
         if (isHoldingCivilian)
         {
 
-            civilianRB.transform.position = Vector3.Lerp(civilianRB.transform.position, throwingPos, 0.012f);
+            civilianRB.transform.position = Vector3.Lerp(civilianRB.transform.position, throwingPos, 0.02f);
 
             if (isTimeToPick)
             {
