@@ -9,7 +9,7 @@ public class NPCSpawn : MonoBehaviour
     [SerializeField]
     private GameObject  fireBall;
     [SerializeField]
-    private GameObject spawnPoint;
+    private GameObject spawnPoint,fireballSpawnPoint;
     [SerializeField]
     private float moveSpeed, ballMoveSpeed;
 
@@ -39,7 +39,7 @@ public class NPCSpawn : MonoBehaviour
 
         if (timeToSpawnBall <= 0f)
         {
-            Instantiate(fireBall, spawnPoint.transform.position, Quaternion.identity);
+            Instantiate(fireBall, fireballSpawnPoint.transform.position, Quaternion.identity);
             timeToSpawnBall = Random.Range(6f, 7f);
         }
 
