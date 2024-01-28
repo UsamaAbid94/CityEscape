@@ -8,9 +8,20 @@ public class Person : MonoBehaviour
     [SerializeField]
     private float moveSpeed;
     private Rigidbody2D personBody;
+
+    [SerializeField] float timeTillNextSfx;
+    float currentTime;
+    [SerializeField] AudioClip yell;
+    AudioSource audioSource;
+
     private void Awake()
     {
         personBody = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
     // Start is called before the first frame update
     void Start()
@@ -22,6 +33,12 @@ public class Person : MonoBehaviour
     void FixedUpdate()
     {
         personBody.velocity = Vector3.left * moveSpeed * Time.fixedDeltaTime;
+
+        if (currentTime <= 0) 
+        {
+            audioSource.Play();
+            currentTime = Random.Range(timeTillNextSfx - 2f, timeTillNextSfx + 2f);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

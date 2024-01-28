@@ -34,7 +34,7 @@ public class NPCSpawn : MonoBehaviour
         {
              people = Instantiate(peopleToSpawn[Random.Range(0,peopleToSpawn.Length)], spawnPoint.transform
             .position, spawnPoint.transform.rotation);
-            timeToSpawn = spawnTime;
+            timeToSpawn = Random.Range(spawnTime - 1f, spawnTime + 1f);
         }
 
         if (timeToSpawnBall <= 0f)

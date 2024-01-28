@@ -23,9 +23,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject instructions;
     bool gameStarted = false;
 
-    [SerializeField] GameObject gameOverImage;
     bool gameFinished = false;
+    [SerializeField] GameObject gameOverImage;
     [SerializeField] GameObject youWinImage;
+    [SerializeField] AudioClip gameOverMusic;
+    [SerializeField] AudioClip youWinMusic;
+    [SerializeField] AudioSource audioSource;
 
     public GameObject fireSplash;
     
@@ -39,6 +42,12 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameManager);
+        }
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
 
         scoreToReachText.text = scoreToReach.ToString();
@@ -58,7 +67,7 @@ public class GameManager : MonoBehaviour
 
         if (gameFinished && Input.GetMouseButtonDown(0))
         {
-            SceneManager.LoadScene(1); // reload the scene to start again
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name); // reload the scene to start again
         }
     }
 
@@ -74,6 +83,9 @@ public class GameManager : MonoBehaviour
             youWinImage.SetActive(true);
             gameFinished = true;
             Time.timeScale = 0f; // set up win screen and pause
+
+            audioSource.clip = youWinMusic;
+            audioSource.Play();
         }
     }
 
@@ -92,6 +104,9 @@ public class GameManager : MonoBehaviour
             gameOverImage.SetActive(true);
             gameFinished = true;
             Time.timeScale = 0f; // set up gameover screen and pause
+
+            audioSource.clip = gameOverMusic;
+            audioSource.Play();
         }
     }
    
