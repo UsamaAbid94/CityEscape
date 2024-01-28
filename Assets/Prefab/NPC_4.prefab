@@ -159,3 +159,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 200
+  timeTillNextSfx: 3.5
+  yell: {fileID: 8300000, guid: ef24c76cb5ad141fc9d5730159b2136f, type: 3}

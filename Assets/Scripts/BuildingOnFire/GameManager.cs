@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject youWinImage;
     [SerializeField] AudioClip gameOverMusic;
     [SerializeField] AudioClip youWinMusic;
-    [SerializeField] AudioSource audioSource;
+    AudioSource audioSource;
 
     public GameObject fireSplash;
     

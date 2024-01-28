@@ -21,17 +21,17 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpForce;
 
     Rigidbody2D civilianRB;
-     Rigidbody2D playerBody;
+    Rigidbody2D playerBody;
 
     Animator dillAnim;
     AudioSource playerAudio;
-    AudioClip pickupSfx;
-    AudioClip throwSfx;
-    AudioClip jumpSfx;
+    [SerializeField] AudioClip throwSfx;
+    [SerializeField] AudioClip jumpSfx;
+    [SerializeField] AudioClip hurtSfx;
 
 
 
-    
+
 
 
     //Saving GrandMa
@@ -48,6 +48,8 @@ public class Player : MonoBehaviour
     {
         playerBody = GetComponent<Rigidbody2D>();
         dillAnim = GetComponent<Animator>();
+
+        playerAudio = GetComponent<AudioSource>();
     }
     // Start is called before the first frame update
     void Start()
@@ -68,12 +70,6 @@ public class Player : MonoBehaviour
             {
                 dillAnim.SetBool("aiming", true);
                 isTimeToPick = false;
-
-                if (playerAudio != null)
-                {
-                    playerAudio.clip = pickupSfx;
-                    playerAudio.Play();
-                }
             }
 
             if (Input.GetMouseButtonDown(0))
@@ -97,7 +93,7 @@ public class Player : MonoBehaviour
                     playerAudio.clip = throwSfx;
                     playerAudio.Play();
                 }
-                
+
                 playerBody.gravityScale = 1f;
                 if (!isGrounded)
                 {
@@ -147,7 +143,7 @@ public class Player : MonoBehaviour
         Vector3 direction = Input.mousePosition - Camera.main.WorldToScreenPoint(civilianRB.transform.position); // calculate dist from mouse
         float angle = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg; // determine angle of change
         civilianRB.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        
+
     }
 
     void Launch()
@@ -167,6 +163,10 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag.Equals("FireBall"))
         {
             GameManager.gameManager.HurtPlayer();
+
+            playerAudio.clip = hurtSfx;
+            playerAudio.Play();
+            StartCoroutine(ChangeColor());
             Debug.Log("Collding With balls");
         }
     }
@@ -181,14 +181,14 @@ public class Player : MonoBehaviour
             if (!isHoldingCivilian)
             {
                 isHoldingCivilian = true;
-                
+
                 civilianRB = collision.rigidbody;
                 civilianRB.isKinematic = true;
 
                 civilianRB.gameObject.transform.parent = transform;
                 civilianRB.gameObject.GetComponent<Person>().enabled = false;
-             
-             
+
+
                 isTimeToPick = true;
             }
         }
@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
         isGrounded = true;
     }
 
-    
+
 
     IEnumerator ShadowChanges()
     {
@@ -209,5 +209,12 @@ public class Player : MonoBehaviour
         smallShadow.SetActive(false);
         HighShadow.SetActive(true);
         dillAnim.Play("DillIdle");
+    }
+
+    IEnumerator ChangeColor()
+    {
+        GetComponent<SpriteRenderer>().color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        GetComponent<SpriteRenderer>().color = Color.white;
     }
 }

@@ -21,6 +21,7 @@ public class Person : MonoBehaviour
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.clip = yell;
         }
     }
     // Start is called before the first frame update
@@ -33,6 +34,8 @@ public class Person : MonoBehaviour
     void FixedUpdate()
     {
         personBody.velocity = Vector3.left * moveSpeed * Time.fixedDeltaTime;
+
+        currentTime -= Time.deltaTime;
 
         if (currentTime <= 0) 
         {

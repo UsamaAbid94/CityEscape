@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 200
+  timeTillNextSfx: 3.5
+  yell: {fileID: 8300000, guid: 4a9de4dfb67fb4be489eefae77b9e569, type: 3}
 --- !u!50 &5918962406150256638
 Rigidbody2D:
   serializedVersion: 4
