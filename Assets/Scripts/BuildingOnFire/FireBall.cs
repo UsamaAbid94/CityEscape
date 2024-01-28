@@ -15,6 +15,6 @@ public class FireBall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += Vector3.left * Random.Range(1f,2.5f) * Time.deltaTime; 
+        transform.position += Vector3.left * moveSpeed* Time.deltaTime; 
     }
 }

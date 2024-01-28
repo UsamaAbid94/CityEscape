@@ -40,7 +40,7 @@ public class NPCSpawn : MonoBehaviour
         if (timeToSpawnBall <= 0f)
         {
             Instantiate(fireBall, spawnPoint.transform.position, Quaternion.identity);
-            timeToSpawnBall = Random.Range(4f, 6f);
+            timeToSpawnBall = Random.Range(6f, 7f);
         }
 
     }

@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     private int imageCounter;
     private int gameScore;
 
-<<<<<<< HEAD
+
     [SerializeField] GameObject instructions;
     bool gameStarted = false;
 
@@ -27,10 +27,9 @@ public class GameManager : MonoBehaviour
     bool gameFinished = false;
     [SerializeField] GameObject youWinImage;
 
-=======
     public GameObject fireSplash;
     
->>>>>>> dfb9fda (New Changes 1:08 PM)
+
     private void Awake()
     {
         if (gameManager == null)

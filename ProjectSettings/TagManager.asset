@@ -70,11 +70,11 @@ TagManager:
   - name: Player
     uniqueID: 2975328639
     locked: 0
-  - name: People
-    uniqueID: 990607447
-    locked: 0
   - name: Building
     uniqueID: 1625985215
+    locked: 0
+  - name: People
+    uniqueID: 990607447
     locked: 0
   - name: test
     uniqueID: 3308358325
