@@ -9,7 +9,7 @@ public class Person : MonoBehaviour
     private float moveSpeed;
     private Rigidbody2D personBody;
 
-    [SerializeField] float timeTillNextSfx;
+    [SerializeField] float timeTillNextSfx = 3.5f;
     float currentTime;
     [SerializeField] AudioClip yell;
     AudioSource audioSource;
@@ -46,27 +46,23 @@ public class Person : MonoBehaviour
         switch (collision.gameObject.tag)
         {
             case "HighArea":
-                GameManager.gameManager.UpdateScore(10);
+                GameManager.gameManager.UpdateScore(30);
                 SpawnFireSplash(this.gameObject);
-             
                 break;
             case "MidArea":
-                GameManager.gameManager.UpdateScore(5);
+                GameManager.gameManager.UpdateScore(20);
                 SpawnFireSplash(this.gameObject);
-          
                 break;
             case "LowArea":
-                GameManager.gameManager.UpdateScore(2);
+                GameManager.gameManager.UpdateScore(10);
                 SpawnFireSplash(this.gameObject);
-             
                 break;
-          
         }
     }
 
     public void SpawnFireSplash(GameObject TargetPosition)
     {
-        GameObject splash = Instantiate(GameManager.gameManager.fireSplash,TargetPosition.transform.position, Quaternion.Euler(0f,0f,190f));
+        GameObject splash = Instantiate(GameManager.gameManager.fireSplash, TargetPosition.transform.position, Quaternion.Euler(0f, 0f, 190f));
         Destroy(splash, 1f);
         gameObject.SetActive(false);
     }
