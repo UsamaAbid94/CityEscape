@@ -29,7 +29,9 @@ public class Player : MonoBehaviour
     AudioClip throwSfx;
     AudioClip jumpSfx;
 
-  
+
+
+    
 
 
     //Saving GrandMa
@@ -185,13 +187,16 @@ public class Player : MonoBehaviour
 
                 civilianRB.gameObject.transform.parent = transform;
                 civilianRB.gameObject.GetComponent<Person>().enabled = false;
-               
+             
+             
                 isTimeToPick = true;
             }
         }
 
         isGrounded = true;
     }
+
+    
 
     IEnumerator ShadowChanges()
     {

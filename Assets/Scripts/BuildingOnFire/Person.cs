@@ -30,16 +30,27 @@ public class Person : MonoBehaviour
         {
             case "HighArea":
                 GameManager.gameManager.UpdateScore(10);
-                gameObject.SetActive(false);
+                SpawnFireSplash(this.gameObject);
+                //gameObject.SetActive(false);
+
                 break;
             case "MidArea":
                 GameManager.gameManager.UpdateScore(5);
-                gameObject.SetActive(false);
+                SpawnFireSplash(this.gameObject);
+               // gameObject.SetActive(false);
                 break;
             case "LowArea":
                 GameManager.gameManager.UpdateScore(2);
-                gameObject.SetActive(false);
+                SpawnFireSplash(this.gameObject);
+                //gameObject.SetActive(false);
                 break;
+          
         }
+    }
+
+    public void SpawnFireSplash(GameObject TargetPosition)
+    {
+        GameObject splash = Instantiate(GameManager.gameManager.fireSplash,TargetPosition.transform.position, Quaternion.identity);
+        Destroy(splash, 2f);
     }
 }
