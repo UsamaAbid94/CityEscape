@@ -8,13 +8,21 @@ public class OpeningCutsceneManager : MonoBehaviour
 {
     [SerializeField] VideoClip clip;
     [SerializeField] VideoPlayer player;
-    [SerializeField] string sceneToLoad;
+    [SerializeField] GameObject rawImage;
+
+    bool cutsceneStarted;
+    bool musicActive;
 
     void Start()
     {
+
+        GetComponent<AudioSource>().Stop();
+
         // begin playing the opening cutscene video
-        player.clip = clip;
-        player.Play();
+        //player.clip = clip;
+        //player.Play();
+
+        StartCoroutine(InitCutscene());
     }
 
     void Update()
@@ -22,12 +30,23 @@ public class OpeningCutsceneManager : MonoBehaviour
         // if cutscene video is finished
         // we want to check if user clicks, and if so go to next scene
 
-        if (!player.isPlaying)
+        if (cutsceneStarted)
         {
-            if (Input.GetMouseButton(0))
+            if (!player.isPlaying && !musicActive)
             {
-                SceneManager.LoadScene(sceneToLoad);
+
+                player.gameObject.SetActive(false);
+                rawImage.gameObject.SetActive(false);
+                GetComponent<AudioSource>().Play();
+                musicActive = true;
             }
         }
+        
+    }
+
+    IEnumerator InitCutscene()
+    {
+        yield return new WaitForSeconds(4);
+        cutsceneStarted = true;
     }
 }
