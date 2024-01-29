@@ -35,7 +35,7 @@ public class Person : MonoBehaviour
 
         personBody.gravityScale = 0f;
         personCollider.isTrigger = true; // essentially makes them intangible,
-                                         // so they can just pass through the player
+                                         // so they can just pass through the videoPlayer
     }
     
     void FixedUpdate()

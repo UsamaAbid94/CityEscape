@@ -8,9 +8,6 @@ public class PersonBoundary : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("something hit");
-
-
         if (collision.gameObject.CompareTag("Person"))
         {
             GameManager.gameManager.UpdateScore(-pointsToReduce);

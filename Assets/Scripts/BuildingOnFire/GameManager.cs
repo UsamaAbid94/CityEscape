@@ -64,13 +64,23 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1.0f;
             instructions.SetActive(false); // close instructions popup
         }
+    }
 
-        if (gameFinished && Input.GetMouseButtonDown(0))
+    public void RestartGame()
+    {
+        if (gameFinished)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name); // reload the scene to start again
         }
     }
 
+    public void BackToMainMenu()
+    {
+        if (gameFinished)
+        {
+            SceneManager.LoadScene("OpeningScene"); // reload the scene to start again
+        }
+    }
     
 
     public void UpdateScore(int gameScore) {

@@ -6,21 +6,17 @@ using UnityEngine.Video;
 
 public class OpeningCutsceneManager : MonoBehaviour
 {
-    [SerializeField] VideoClip clip;
-    [SerializeField] VideoPlayer player;
+    [SerializeField] VideoPlayer videoPlayer;
     [SerializeField] GameObject rawImage;
+    [SerializeField] AudioSource source;
 
     bool cutsceneStarted;
     bool musicActive;
 
-    void Start()
+    void OnEnable()
     {
-
-        GetComponent<AudioSource>().Stop();
-
-        // begin playing the opening cutscene video
-        //player.clip = clip;
-        //player.Play();
+        Time.timeScale = 1.0f;
+        source.Stop();
 
         StartCoroutine(InitCutscene());
     }
@@ -32,12 +28,11 @@ public class OpeningCutsceneManager : MonoBehaviour
 
         if (cutsceneStarted)
         {
-            if (!player.isPlaying && !musicActive)
+            if (!videoPlayer.isPlaying && !musicActive)
             {
-
-                player.gameObject.SetActive(false);
+                videoPlayer.gameObject.SetActive(false);
                 rawImage.gameObject.SetActive(false);
-                GetComponent<AudioSource>().Play();
+                source.Play();
                 musicActive = true;
             }
         }
