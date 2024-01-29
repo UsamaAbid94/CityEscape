@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public enum PlayerMissions
+    /*public enum PlayerMissions
     {
         SavingPeople,
         SavingGrandMa,
         CallingPhoneCall
     }
 
-    public PlayerMissions playerMissions;
+    public PlayerMissions playerMissions;*/
 
     bool isHoldingCivilian = false;
-    bool isAiming = false;
 
     [SerializeField] float throwForce;
-    [SerializeField] Vector3 throwingPos;
+    [SerializeField] Vector3 throwingPosOffset;
     [SerializeField] float jumpForce;
 
+    Person currentHeldPerson;
     Rigidbody2D civilianRB;
     Rigidbody2D playerBody;
 
@@ -31,15 +31,7 @@ public class Player : MonoBehaviour
 
 
 
-
-
-
-    //Saving GrandMa
-    /*
-    public float savingTime=2f;
-    public float timeToSave;
-    */
-    private bool isTimeToPick;
+    private bool isTimeToPickUp;
     private bool isGrounded;
 
 
@@ -51,42 +43,33 @@ public class Player : MonoBehaviour
 
         playerAudio = GetComponent<AudioSource>();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        //timeToSave = savingTime; 
-    }
-
-    // Update is called once per frame
+    
     void Update()
     {
 
         if (isHoldingCivilian)
         {
+            // bring person to the hold pos
+            currentHeldPerson.transform.position = Vector3.Lerp(currentHeldPerson.transform.position, 
+                                                                transform.position + throwingPosOffset, 
+                                                                0.2f);
 
-            civilianRB.transform.position = Vector3.Lerp(civilianRB.transform.position, throwingPos, 0.02f);
-
-            if (isTimeToPick)
+            // set grab anim
+            if (isTimeToPickUp)
             {
                 dillAnim.SetBool("aiming", true);
-                isTimeToPick = false;
+                isTimeToPickUp = false;
             }
 
             if (Input.GetMouseButtonDown(0))
             {
-                isAiming = true;
-
-                GetComponent<BoxCollider2D>().enabled = false;
-                playerBody.gravityScale = 0f;
+                UpdateAim();
             }
 
             if (Input.GetMouseButtonUp(0))
             {
                 Launch();
-                isAiming = false;
-
-                GetComponent<BoxCollider2D>().enabled = true;
-                dillAnim.SetBool("aiming", isAiming);
+                dillAnim.SetBool("aiming", false);
 
                 if (playerAudio != null)
                 {
@@ -94,7 +77,6 @@ public class Player : MonoBehaviour
                     playerAudio.Play();
                 }
 
-                playerBody.gravityScale = 1f;
                 if (!isGrounded)
                 {
                     dillAnim.Play("DillJumpThrow");
@@ -103,53 +85,37 @@ public class Player : MonoBehaviour
         }
 
 
-
-        if (isAiming)
-        {
-            UpdateAim();
-
-            GetComponent<BoxCollider2D>().enabled = false;
-            playerBody.gravityScale = 0f;
-        }
-
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-
-
             JumpPlayer(jumpForce);
             StartCoroutine(ShadowChanges());
-            isGrounded = false;
 
             if (playerAudio != null)
             {
                 playerAudio.clip = jumpSfx;
                 playerAudio.Play();
             }
-
         }
     }
 
     void JumpPlayer(float jumpForce)
     {
-        playerBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        playerBody.AddForce(Vector2.up * jumpForce);//, ForceMode2D.Impulse);
         dillAnim.Play("DillJump");
     }
+
     void UpdateAim()
     {
-        // change forward trajectory of rb
-
-        //Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        // have the person rotate to point toward the mouse
 
         Vector3 direction = Input.mousePosition - Camera.main.WorldToScreenPoint(civilianRB.transform.position); // calculate dist from mouse
-        float angle = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg; // determine angle of change
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // determine angle of change
         civilianRB.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
     }
 
     void Launch()
     {
-        civilianRB.isKinematic = false;
-        civilianRB.gameObject.transform.parent = transform;
+        currentHeldPerson.SetThrowState();
 
         Vector3 launchDir = Input.mousePosition - Camera.main.WorldToScreenPoint(civilianRB.transform.position);
         civilianRB.AddForce(-launchDir.normalized * throwForce);
@@ -160,18 +126,6 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Equals("FireBall"))
-        {
-            GameManager.gameManager.HurtPlayer();
-
-            playerAudio.clip = hurtSfx;
-            playerAudio.Play();
-            StartCoroutine(ChangeColor());
-            Debug.Log("Collding With balls");
-        }
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
         // if a person walks into us, and we're not already holding a person,
         // pick the person up, disabling their walk script and making them immobile
         Person person = collision.gameObject.GetComponent<Person>();
@@ -181,19 +135,34 @@ public class Player : MonoBehaviour
             if (!isHoldingCivilian)
             {
                 isHoldingCivilian = true;
+                isTimeToPickUp = true;
 
-                civilianRB = collision.rigidbody;
-                civilianRB.isKinematic = true;
+                currentHeldPerson = person;
+                civilianRB = collision.attachedRigidbody;
 
-                civilianRB.gameObject.transform.parent = transform;
-                civilianRB.gameObject.GetComponent<Person>().enabled = false;
-
-
-                isTimeToPick = true;
+                person.SetGrabState();
             }
         }
 
+
+        if (collision.gameObject.tag.Equals("FireBall"))
+        {
+            GameManager.gameManager.HurtPlayer();
+
+            playerAudio.clip = hurtSfx;
+            playerAudio.Play();
+            StartCoroutine(ChangeColor());
+            //Debug.Log("Collding With balls");
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
         isGrounded = true;
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        isGrounded = false;
     }
 
 

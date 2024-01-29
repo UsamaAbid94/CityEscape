@@ -9,6 +9,7 @@ TagManager:
   - LowArea
   - FxTemporaire
   - FireBall
+  - Person
   layers:
   - Default
   - TransparentFX

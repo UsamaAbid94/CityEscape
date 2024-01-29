@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2106883658}
   m_Layer: 0
   m_Name: NPC_1
-  m_TagString: Untagged
+  m_TagString: Person
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,6 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 200
+  timeTillDespawn: 5
   timeTillNextSfx: 3.5
   yell: {fileID: 8300000, guid: e1908f3186fb6488da209adeb0722f94, type: 3}
 --- !u!50 &7655526753274530139

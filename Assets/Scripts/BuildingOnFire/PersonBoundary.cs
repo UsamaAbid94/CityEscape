@@ -6,14 +6,16 @@ public class PersonBoundary : MonoBehaviour
 {
     [SerializeField] int pointsToReduce;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Person person = collision.gameObject.GetComponent<Person>();
+        Debug.Log("something hit");
 
-        if (person != null)
+
+        if (collision.gameObject.CompareTag("Person"))
         {
             GameManager.gameManager.UpdateScore(-pointsToReduce);
-            Destroy(person.gameObject);
         }
+
+        Destroy(collision.gameObject);
     }
 }
